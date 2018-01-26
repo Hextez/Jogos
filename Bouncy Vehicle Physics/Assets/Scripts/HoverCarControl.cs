@@ -32,7 +32,7 @@ public class HoverCarControl : NetworkBehaviour
     public Rigidbody shield;
 
     //ranks
-    public Text ranking = GameObject.Find("Canvas").GetComponentInChildren<Text>();
+    public Text ranking;
 
     //velocidades
   	public float forwardAcceleration = 500000f;
@@ -56,6 +56,8 @@ public class HoverCarControl : NetworkBehaviour
 
         layerMask = 1 << LayerMask.NameToLayer("Vehicle");
         layerMask = ~layerMask;
+
+        ranking = GameObject.Find("Canvas").GetComponentInChildren<Text>();
       }
 
 	
@@ -70,6 +72,9 @@ public class HoverCarControl : NetworkBehaviour
 
         Vector3 foward = transform.TransformDirection(Vector3.down);
         Debug.DrawRay(transform.position, foward, Color.green);
+
+        //Alguma coisa esta a fuder com o canMove xD
+        canMove = true;
 
         // Get thrust input
         if (canMove)
