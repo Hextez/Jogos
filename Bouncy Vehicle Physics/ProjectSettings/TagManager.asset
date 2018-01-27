@@ -10,6 +10,7 @@ TagManager:
   - PickUp
   - Target
   - Check
+  - HitArea
   layers:
   - Default
   - TransparentFX

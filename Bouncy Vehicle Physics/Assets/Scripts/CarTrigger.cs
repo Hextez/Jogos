@@ -20,9 +20,12 @@ public class CarTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.name);
-        if (other.name == "missile" || other.name == "Mina")
+        if (other.name == gameObject.name)
+            return;
+
+        if (other.name == "dMissile(Clone)" || other.name == "Mina")
         {
+            Debug.Log("dasdasdasdasdasdas");
             player.canMove = false;
             damageAnimation = false;
             player.thrust = 0f;

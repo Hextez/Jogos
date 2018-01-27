@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Homing : MonoBehaviour {
+public class Homing : NetworkBehaviour {
 
     private float missileVelocity = 100;
     private float turn = 20;
@@ -11,18 +12,23 @@ public class Homing : MonoBehaviour {
     public GameObject missileMod;
     
     public Transform target;
+    [SyncVar(hook = "setTargetName")] public string name;
+
 
     void Start()
     {
+        Debug.Log(gameObject.name);
+        missileMod = gameObject;
+        target = GameObject.Find(name).transform;
         homingMissile = transform.GetComponent<Rigidbody>();
         new WaitForSeconds(2);
         Fire();
 
     }
 
-    public void setTransform(Transform s)
+    public void setTargetName(string s)
     {
-        target = s;
+        name = s;
     }
 
     void FixedUpdate()
@@ -43,31 +49,32 @@ public class Homing : MonoBehaviour {
         new WaitForSeconds(fuseDelay);
 
         float distance = Mathf.Infinity;
- 
-    foreach (GameObject go in GameObject.FindGameObjectsWithTag("Target"))
-        {
-            float diff = (go.transform.position - transform.position).sqrMagnitude;
 
-            if (diff < distance)
-            {
+        GameObject go = GameObject.Find(name);
+
+        float diff = (target.transform.position - transform.position).sqrMagnitude;
+
+        if (diff < distance)
+        {
                 distance = diff;
                 target = go.transform;
-            }
-
         }
+
+        
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.CompareTag("Player1"))
+        Debug.Log(other.tag + " -- " + other.name);
+        if (other.CompareTag("Player1") && name == other.name)
         {
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
 
         }
 
-        if(other.name == "Shield")
+        if(other.name == "Shiei")
         {
             Destroy(gameObject);
 

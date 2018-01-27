@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Protector : MonoBehaviour {
-    
-    public GameObject SpawnPosIn;
+public class Protector : NetworkBehaviour {
+
+    [SyncVar(hook = "setPosPosition")] public string name;
+    public Transform car;
+    public GameObject Car;
     Transform shield;
     private float endTime;
 
 	// Use this for initialization
 	void Start () {
-        shield = gameObject.transform;
+        
+
+        //car = gameObject.transform.parent;
+
+        //shield = gameObject.transform;
         endTime = Time.time + 3;
         Color c = gameObject.GetComponent<Renderer>().material.color;
         c.a = 0.2f;
@@ -20,16 +27,17 @@ public class Protector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        shield.position = SpawnPosIn.transform.position;
-
+        
+        transform.position = GameObject.Find(name).transform.Find("SpawnPointMiddle").transform.position;
         if (endTime - Time.time < 0)
             Destroy(gameObject);
+        
 
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == "missile" || other.name == "Mina")
+        if (other.name == "Missile(Clone)" || other.name == "Mina")
         {
             Destroy(gameObject);
 
@@ -37,8 +45,8 @@ public class Protector : MonoBehaviour {
 
     }
 
-    public void setPosPosition(GameObject spawn)
+    public void setPosPosition(string spawn)
     {
-        SpawnPosIn = spawn;
+        name = spawn;
     }
 }

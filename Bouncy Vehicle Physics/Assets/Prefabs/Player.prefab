@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 4350638103206562}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: HitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1019,16 +1019,17 @@ MonoBehaviour:
   - {fileID: 1714871621694860}
   canMove: 0
   powers:
-  - {fileID: 54184659626192928, guid: 55d2beb6d9a91ad4284eac03e9d12efb, type: 2}
-  - {fileID: 0}
-  - {fileID: 54966546351876394, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
-  spawnPos: {fileID: 1403560924504682}
+  - {fileID: 1186339051560044, guid: 55d2beb6d9a91ad4284eac03e9d12efb, type: 2}
+  - {fileID: 1868884654642742, guid: 9dcd0f45083b9a049b5f34645fc6a0c6, type: 2}
+  - {fileID: 1492284244892658, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
+  spawnPos: {fileID: 0}
   spawnPosBack: {fileID: 1188249994766092}
-  spawnPosMiddle: {fileID: 1311064401895886}
-  mine: {fileID: 54184659626192928, guid: 55d2beb6d9a91ad4284eac03e9d12efb, type: 2}
-  missile: {fileID: 54826524129702972, guid: d51efc09be2a3914586386c06a28574c, type: 2}
-  shield: {fileID: 54966546351876394, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
+  spawnPosMiddle: {fileID: 0}
+  mine: {fileID: 1186339051560044, guid: 55d2beb6d9a91ad4284eac03e9d12efb, type: 2}
+  missile: {fileID: 1868884654642742, guid: 9dcd0f45083b9a049b5f34645fc6a0c6, type: 2}
+  shield: {fileID: 1492284244892658, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
   ranking: {fileID: 0}
+  textPower: {fileID: 0}
   forwardAcceleration: 25000
   reverseAcceleration: 4000
   thrust: 0
@@ -1050,7 +1051,6 @@ MonoBehaviour:
   checkPointArray: []
   currentCheckpoint: 0
   currentLap: 0
-  startPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114756360245067168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0

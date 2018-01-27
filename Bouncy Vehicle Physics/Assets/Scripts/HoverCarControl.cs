@@ -18,8 +18,8 @@ public class HoverCarControl : NetworkBehaviour
     public bool canMove = true;
 
     //Lista dos poderes que existem e os poderes do jogador
-    public Rigidbody[] powers;
-    public static Rigidbody[] atualPower = new Rigidbody[2];
+    public GameObject[] powers;
+    public static GameObject[] atualPower = new GameObject[2];
 
     //Posições para os poderes 
     public GameObject spawnPos;
@@ -27,12 +27,13 @@ public class HoverCarControl : NetworkBehaviour
     public GameObject spawnPosMiddle;
 
     //Game objects dos poderes;
-    public Rigidbody mine;
-    public Rigidbody missile;
-    public Rigidbody shield;
+    public GameObject mine;
+    public GameObject missile;
+    public GameObject shield;
 
     //ranks
     public Text ranking;
+    public Text textPower;
 
     //velocidades
   	public float forwardAcceleration = 500000f;
@@ -57,16 +58,33 @@ public class HoverCarControl : NetworkBehaviour
         layerMask = 1 << LayerMask.NameToLayer("Vehicle");
         layerMask = ~layerMask;
 
-        ranking = GameObject.Find("Canvas").GetComponentInChildren<Text>();
-      }
+        ranking = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0];
+        textPower = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[1];
+        textPower.text = "";
 
-	
-  void Update() //movimentos do carro
-  {
+        spawnPosMiddle = gameObject.transform.Find("SpawnPointMiddle").gameObject;
+        spawnPos = gameObject.transform.Find("SpawnPoint").gameObject;
+
+    }
+
+
+    void Update() //movimentos do carro
+    {
         if (!isLocalPlayer) //so o local pode mexer 
         {
             return;
         }
+
+        string p = "";
+        foreach (GameObject obj in atualPower)
+        {
+            if (obj)
+                p += obj.name;
+            else
+                p += "Nada";
+        }
+        textPower.text = p;
+
         RaycastHit hit;
         float theDistance;
 
@@ -75,10 +93,10 @@ public class HoverCarControl : NetworkBehaviour
 
         //Alguma coisa esta a fuder com o canMove xD
         canMove = true;
-
         // Get thrust input
         if (canMove)
         {
+
             if (Physics.Raycast(transform.position, (foward), out hit))
             {
                 theDistance = hit.distance;
@@ -89,64 +107,20 @@ public class HoverCarControl : NetworkBehaviour
 
             acceleration = Input.GetAxis("Vertical");
             turnAxis = Input.GetAxis("Horizontal");
-                
+           
             if (Input.GetButtonDown("FireP1"))
             {
-                if (hit.collider.gameObject.name == "Cube_001" || hit.collider.gameObject.name == "Cube_003")
+                if (hit.collider.gameObject.name == "Verde" || hit.collider.gameObject.name == "Azul")
                 {
-                    if (atualPower[0] != null && atualPower[0].gameObject.name == "Missile")
-                    {
-                        if (name != GameObject.Find("CheckPoints").GetComponent<PositionTrack>().getFristPlace())
-                        {
-                            Homing info = missile.GetComponent<Homing>();
-
-                            GameObject carTarget = GameObject.Find(GameObject.Find("CheckPoints").GetComponent<PositionTrack>().getFristPlace());
-
-                            info.setTransform(carTarget.transform);
-                            Instantiate(missile, spawnPos.transform.position, spawnPos.transform.rotation);
-                            atualPower[0] = null;
-                        }
-                    }else if(atualPower[0] != null && atualPower[0].gameObject.name == "Mina") {
-                        Instantiate(mine, spawnPosBack.transform.position, spawnPosBack.transform.rotation);
-                        atualPower[0] = null;
-                    }
-                    else if (atualPower[0] != null && atualPower[0].gameObject.name == "Shield")
-                    {
-                        shield.GetComponent<Protector>().setPosPosition(spawnPosMiddle);
-                        Instantiate(shield, spawnPosMiddle.transform.position, spawnPosMiddle.transform.rotation);
-                        atualPower[0] = null;
-                    }
+                    
+                    CmdShotType1();
                 }
-                else if(hit.collider.gameObject.name == "Cube_002" || hit.collider.gameObject.name == "Cube_004")
+                else if (hit.collider.gameObject.name == "Amarelo" || hit.collider.gameObject.name == "Vermelho")
                 {
-                    if (atualPower[1] != null && atualPower[1].gameObject.name == "Missile")
-                    {
-                        if (name != GameObject.Find("CheckPoints").GetComponent<PositionTrack>().getFristPlace())
-                        {
-                            Homing info = missile.GetComponent<Homing>();
-
-                            GameObject carTarget = GameObject.Find(GameObject.Find("CheckPoints").GetComponent<PositionTrack>().getFristPlace());
-
-                            info.setTransform(carTarget.transform);
-                            Instantiate(missile, spawnPos.transform.position, spawnPos.transform.rotation);
-                            atualPower[1] = null;
-                        }
-                    }
-                    else if (atualPower[1] != null && atualPower[1].gameObject.name == "Mina")
-                    {
-                        Instantiate(mine, spawnPosBack.transform.position, spawnPosBack.transform.rotation);
-                        atualPower[1] = null;
-                    }
-                    else if (atualPower[1] != null && atualPower[1].gameObject.name == "Shield")
-                    {
-                        shield.GetComponent<Protector>().setPosPosition(spawnPosMiddle);
-                        Instantiate(shield, spawnPosMiddle.transform.position, spawnPosMiddle.transform.rotation);
-                        atualPower[1] = null;
-                    }
+                    CmdShotType2();
                 }
-                
             }
-           
+
             if (acceleration > deadZone)
                 thrust = acceleration * forwardAcceleration;
             else if (acceleration < -deadZone)
@@ -162,8 +136,82 @@ public class HoverCarControl : NetworkBehaviour
                 else
                     turnValue = turnAxis;
             }
+
+
         }
-  }
+    }
+  
+    [Command]
+    void CmdShotType1()
+    {
+        
+        if (atualPower[0] != null && atualPower[0].gameObject.name == "Missile")
+        {
+            
+            if (name != gameObject.GetComponent<PositionTrack>().getFristPlace())
+            {
+
+                GameObject bullet = (GameObject)Instantiate(missile, spawnPos.transform.position, spawnPos.transform.rotation);
+                bullet.GetComponent<Homing>().setTargetName(gameObject.GetComponent<PositionTrack>().getFristPlace());
+
+                NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
+                atualPower[0] = null;
+            }
+        }
+        else if (atualPower[0] != null && atualPower[0].gameObject.name == "Mina")
+        {
+            GameObject bullet = (GameObject)Instantiate(mine, spawnPosBack.transform.position, spawnPosBack.transform.rotation);
+            NetworkServer.Spawn(bullet);
+
+            atualPower[0] = null;
+        }
+        else if (atualPower[0] != null && atualPower[0].gameObject.name == "Shield")
+        {
+            GameObject bullet = (GameObject)Instantiate(shield, spawnPosMiddle.transform.position, spawnPosMiddle.transform.rotation);
+            bullet.GetComponent<Protector>().setPosPosition(gameObject.name);
+
+            NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
+
+            atualPower[0] = null;
+        }
+    }
+
+    [Command]
+    void CmdShotType2()
+    {
+        if (atualPower[1] != null && atualPower[1].gameObject.name == "Missile")
+            {
+                if (name != gameObject.GetComponent<PositionTrack>().getFristPlace())
+                {
+
+                    GameObject bullet = (GameObject) Instantiate(missile, spawnPos.transform.position, spawnPos.transform.rotation);
+
+                    bullet.GetComponent<Homing>().setTargetName(gameObject.GetComponent<PositionTrack>().getFristPlace());
+
+                    NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
+                    atualPower[1] = null;
+                }
+            }
+            else if (atualPower[1] != null && atualPower[1].gameObject.name == "Mina")
+            {
+                GameObject bullet = (GameObject)Instantiate(mine, spawnPosBack.transform.position, spawnPosBack.transform.rotation);
+                NetworkServer.Spawn(bullet);
+                atualPower[1] = null;
+            }
+            else if (atualPower[1] != null && atualPower[1].gameObject.name == "Shield")
+            {
+
+            GameObject bullet = (GameObject)Instantiate(shield, spawnPosMiddle.transform.position, spawnPosMiddle.transform.rotation);
+            bullet.GetComponent<Protector>().setPosPosition(gameObject.name);
+
+            NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
+
+            atualPower[1] = null;
+            }
+        }
+
+
+    
 
   void FixedUpdate()
   {
@@ -214,7 +262,11 @@ public class HoverCarControl : NetworkBehaviour
 
         // Handle Forward and Reverse forces
         if (Mathf.Abs(thrust) > 0)
-          body.AddForce(transform.forward * thrust);
+        {
+            body.AddForce(transform.forward * thrust);
+            
+        }
+          
 
         // Handle Turn forces
         if (turnValue > 0)
@@ -238,15 +290,20 @@ public class HoverCarControl : NetworkBehaviour
         {
             //other.gameObject.SetActive(false);
             other.gameObject.SetActive(false);
+            
             for (int x = 0; x < atualPower.Length; x++)
             {
                 if (x == 0 && atualPower[x] == null)
                 {
-                    atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
+                    
+                    //atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
+                    atualPower[x] = powers[1];
+
                 }
                 else if (x == 1 && atualPower[x] == null)
                 {
-                    atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
+                    //atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
+                    atualPower[x] = powers[2];
                 }
             }
 

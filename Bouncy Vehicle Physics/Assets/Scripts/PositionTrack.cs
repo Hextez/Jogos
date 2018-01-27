@@ -73,7 +73,16 @@ public class PositionTrack : MonoBehaviour {
 
     public string getFristPlace()
     {
-        return "";
+        return GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0].text.Split(new string[] { " " }, StringSplitOptions.None)[0];
+        /*
+        Debug.Log(ranking.text);
+        Debug.Log(ranking.text.Split(new string[] { " " }, StringSplitOptions.None)[0]);
+        if (playersInPos.Length == 1)
+        {
+            return playersInPos[0].name;
+        }
+        return ranking.text.Split(new string[] { " " }, StringSplitOptions.None)[0]; 
+        */
         
     }
 
