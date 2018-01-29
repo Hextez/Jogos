@@ -16,7 +16,14 @@ public class CarCheckpoint : NetworkBehaviour {
         {
             gameObject.name = "car2";
         }
-        else
+        else if (GameObject.Find("car2")){
+            gameObject.name = "car3";
+
+        }else if (GameObject.Find("car3"))
+        {
+            gameObject.name = "car4";
+
+        }else
         {
             gameObject.name = "car1";
         }
@@ -43,11 +50,29 @@ public class CarCheckpoint : NetworkBehaviour {
         return currentLap;
     }
 
+
     public void setCheck(int val)
     {
         currentCheckpoint = val;
+        if (!isServer)
+            CmdsetCheck(val);
     }
+
+    [Command]
+    public void CmdsetCheck(int val)
+    {
+        currentCheckpoint = val;
+    }
+
+
     public void setLap(int lap)
+    {
+        currentLap = lap;
+        if(!isServer)
+            CmdsetLap(lap);
+    }
+    [Command]
+    public void CmdsetLap(int lap)
     {
         currentLap = lap;
     }

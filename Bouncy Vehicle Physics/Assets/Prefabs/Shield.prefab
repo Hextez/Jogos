@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114810627049653268}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651812d11eaa8d74583f2a6106a7ac5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
   car: {fileID: 0}
   Car: {fileID: 0}
 --- !u!135 &135071247027697468

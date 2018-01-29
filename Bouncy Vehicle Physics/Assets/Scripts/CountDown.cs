@@ -19,6 +19,8 @@ public class CountDown : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log("CountDOw");
         float t = startTime - Time.time;
         if (t > -1) { 
             string seconds = (t % 60).ToString("f2");

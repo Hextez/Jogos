@@ -30,19 +30,34 @@ public class Protector : NetworkBehaviour {
         
         transform.position = GameObject.Find(name).transform.Find("SpawnPointMiddle").transform.position;
         if (endTime - Time.time < 0)
-            Destroy(gameObject);
-        
+        {
+            if (isServer)
+                gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+
+
+            CmdDestroyObject(gameObject);
+
+        }
 
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Missile(Clone)" || other.name == "Mina")
+        if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == name) || other.CompareTag("Mina"))
         {
-            Destroy(gameObject);
+            if (isServer)
+                gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+
+            CmdDestroyObject(gameObject);
+
 
         }
 
+    }
+    [Command]
+    void CmdDestroyObject(GameObject ob)
+    {
+        NetworkServer.Destroy(ob);
     }
 
     public void setPosPosition(string spawn)

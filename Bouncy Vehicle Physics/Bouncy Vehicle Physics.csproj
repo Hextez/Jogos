@@ -352,8 +352,7 @@
     <Compile Include="Assets\Scripts\ScriptsPowers\Mining.cs" />
     <Compile Include="Assets\Scripts\ScriptsPowers\OilInFloor.cs" />
     <Compile Include="Assets\Scripts\ScriptsPowers\Protector.cs" />
-    <Compile Include="Assets\Scripts\ScriptsPowers\ThrowBomb.cs" />
-    <Compile Include="Assets\Scripts\ScriptsPowers\ThrowPunch.cs" />
+    <Compile Include="Assets\Scripts\ScriptsPowers\StringEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\CarbonConcept\JMO Assets\!JMO Assets Readme.txt" />

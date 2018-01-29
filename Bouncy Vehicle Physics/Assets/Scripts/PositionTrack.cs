@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 
-public class PositionTrack : MonoBehaviour {
+public class PositionTrack : NetworkBehaviour {
 
     public GameObject[] players;
     public GameObject[] playersInPos;
@@ -14,6 +14,8 @@ public class PositionTrack : MonoBehaviour {
 
     public Text ranking;
     public Text textPlaye1;
+
+    [SyncVar(hook = "setRanks")] public string texto;
 
     private CarCheckpoint car;
 
@@ -32,7 +34,7 @@ public class PositionTrack : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-    
+       
         textPlaye1.text = "Checkpoint: " + (car.getCurrentCheck()) + " Lap: " + (car.getCurrentLap());
 
         players = GameObject.FindGameObjectsWithTag("Player1");
@@ -62,28 +64,27 @@ public class PositionTrack : MonoBehaviour {
                 x++;
             }
         }
-        ranking.text = "";
+        string tex = "";
         foreach (GameObject ob in playersInPos)
         {
-            ranking.text += ob.name + " ";
+            tex += ob.name + " ";
         }
+
+        setRanks(tex);
+        ranking.text = tex;
 
 	}
 
+    public void setRanks(String s)
+    {
+        texto = s;
+    }
 
     public string getFristPlace()
     {
+        //Debug.Log(texto+ "dsdsdsds");
         return GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0].text.Split(new string[] { " " }, StringSplitOptions.None)[0];
-        /*
-        Debug.Log(ranking.text);
-        Debug.Log(ranking.text.Split(new string[] { " " }, StringSplitOptions.None)[0]);
-        if (playersInPos.Length == 1)
-        {
-            return playersInPos[0].name;
-        }
-        return ranking.text.Split(new string[] { " " }, StringSplitOptions.None)[0]; 
-        */
-        
+
     }
 
     GameObject DistanceBetweenCheck(GameObject obj1, GameObject obj2)

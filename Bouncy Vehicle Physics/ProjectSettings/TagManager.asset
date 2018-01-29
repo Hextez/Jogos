@@ -11,6 +11,11 @@ TagManager:
   - Target
   - Check
   - HitArea
+  - Shield
+  - Missile
+  - Mina
+  - Explosion
+  - Oil
   layers:
   - Default
   - TransparentFX

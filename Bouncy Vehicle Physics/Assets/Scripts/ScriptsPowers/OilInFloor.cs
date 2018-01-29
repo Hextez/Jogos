@@ -5,7 +5,7 @@ using UnityEngine;
 public class OilInFloor : MonoBehaviour {
 
     private float effectForce = 1000f;
-    private float normalForce = 8000f;
+    private float normalForce = 25000f;
 
 	// Use this for initialization
 	void Start () {

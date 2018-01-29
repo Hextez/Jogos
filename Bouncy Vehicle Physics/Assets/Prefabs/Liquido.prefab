@@ -9,46 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1938416394128570}
+  m_RootGameObject: {fileID: 1388806327309302}
   m_IsPrefabParent: 1
---- !u!1 &1938416394128570
+--- !u!1 &1388806327309302
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4092719839942300}
-  - component: {fileID: 33880452766257970}
-  - component: {fileID: 23229752498973734}
-  - component: {fileID: 95156082211537538}
-  - component: {fileID: 114246691064863876}
+  - component: {fileID: 4453730779202828}
+  - component: {fileID: 33434989769006890}
+  - component: {fileID: 23646301988955506}
+  - component: {fileID: 95782849282087842}
+  - component: {fileID: 114471795754152404}
+  - component: {fileID: 136021394616359776}
   m_Layer: 0
   m_Name: Liquido
-  m_TagString: Untagged
+  m_TagString: Oil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4092719839942300
+--- !u!4 &4453730779202828
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938416394128570}
+  m_GameObject: {fileID: 1388806327309302}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.2046778, y: 0.00000059604645, z: -1.0842993}
+  m_LocalPosition: {x: 706.9212, y: 252.25865, z: 211.00519}
   m_LocalScale: {x: 5, y: 5, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23229752498973734
+--- !u!23 &23646301988955506
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938416394128570}
+  m_GameObject: {fileID: 1388806327309302}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -77,20 +78,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33880452766257970
+--- !u!33 &33434989769006890
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938416394128570}
+  m_GameObject: {fileID: 1388806327309302}
   m_Mesh: {fileID: 4300000, guid: cebb3bb179073e142999baa4bd74d4d5, type: 3}
---- !u!95 &95156082211537538
+--- !u!95 &95782849282087842
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938416394128570}
+  m_GameObject: {fileID: 1388806327309302}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: cebb3bb179073e142999baa4bd74d4d5, type: 3}
   m_Controller: {fileID: 0}
@@ -101,14 +102,48 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114246691064863876
+--- !u!114 &114471795754152404
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938416394128570}
+  m_GameObject: {fileID: 1388806327309302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ecc7069f11acb47be63bad49908746, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 27
+    i1: 84
+    i2: 154
+    i3: 185
+    i4: 246
+    i5: 30
+    i6: 181
+    i7: 164
+    i8: 9
+    i9: 235
+    i10: 71
+    i11: 139
+    i12: 177
+    i13: 136
+    i14: 102
+    i15: 57
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!136 &136021394616359776
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388806327309302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 2.0000005
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

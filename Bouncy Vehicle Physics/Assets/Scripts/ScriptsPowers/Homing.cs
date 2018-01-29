@@ -17,7 +17,6 @@ public class Homing : NetworkBehaviour {
 
     void Start()
     {
-        Debug.Log(gameObject.name);
         missileMod = gameObject;
         target = GameObject.Find(name).transform;
         homingMissile = transform.GetComponent<Rigidbody>();
@@ -67,16 +66,21 @@ public class Homing : NetworkBehaviour {
     private void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log(other.tag + " -- " + other.name);
-        if (other.CompareTag("Player1") && name == other.name)
+        //Debug.Log(other.tag + " -- " + other.name);
+        if (other.CompareTag("Player1") && name == other.name) //explode com o carro
         {
-            NetworkServer.Destroy(gameObject);
+            
+            Destroy(gameObject);
+            //NetworkServer.Destroy(gameObject);
+
 
         }
 
-        if(other.name == "Shiei")
+        if (other.CompareTag("Shield") && other.GetComponent<Protector>().name == name) //Explode com o escudo do gajo 
         {
             Destroy(gameObject);
+            //NetworkServer.Destroy(gameObject);
+
 
         }
 

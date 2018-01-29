@@ -40,9 +40,11 @@ GameObject:
   - component: {fileID: 54554347018606936}
   - component: {fileID: 136612553017953796}
   - component: {fileID: 114399225479341822}
+  - component: {fileID: 114362098059005396}
+  - component: {fileID: 114448255407915930}
   m_Layer: 0
   m_Name: Bomba
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,6 +293,38 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114362098059005396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1318230238550432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 71
+    i1: 224
+    i2: 174
+    i3: 198
+    i4: 120
+    i5: 35
+    i6: 134
+    i7: 132
+    i8: 218
+    i9: 47
+    i10: 78
+    i11: 116
+    i12: 165
+    i13: 28
+    i14: 67
+    i15: 185
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114399225479341822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,6 +341,27 @@ MonoBehaviour:
   force: 700
   explosionEffect: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
     type: 2}
+--- !u!114 &114448255407915930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1318230238550432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.0625
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!136 &136612553017953796
 CapsuleCollider:
   m_ObjectHideFlags: 1

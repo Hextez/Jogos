@@ -5,28 +5,48 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
-public class CarTrigger : MonoBehaviour {
+public class CarTrigger : NetworkBehaviour {
 
     private bool damageAnimation = true;
     private Material mat;
     private Color[] colors = { Color.yellow, Color.red };
     public HoverCarControl player;
+    public CarCheckpoint car1;
 
     void Start()
     {
-        CarCheckpoint car1 = gameObject.GetComponent<CarCheckpoint>();
+        player = gameObject.GetComponent<HoverCarControl>();
+        car1 = gameObject.GetComponent<CarCheckpoint>();
 
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Oil"))
+        {
+            gameObject.GetComponent<HoverCarControl>().forwardAcceleration = 25000f;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == gameObject.name)
+        if (!isLocalPlayer)
             return;
-
-        if (other.name == "dMissile(Clone)" || other.name == "Mina")
+        
+        if (other.CompareTag("Explosion"))
         {
-            Debug.Log("dasdasdasdasdasdas");
-            player.canMove = false;
+            gameObject.GetComponent<Rigidbody>().AddExplosionForce(100000f, other.transform.position, 500f);
+        }
+        if (other.CompareTag("Oil"))
+        {
+            gameObject.GetComponent<HoverCarControl>().thrust = 0f ;
+            gameObject.GetComponent<HoverCarControl>().forwardAcceleration = 0f;
+            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -260000f);
+        }
+
+        if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == gameObject.name) || other.CompareTag("Mina"))
+        {
+            
+            player.setMove(false);
             damageAnimation = false;
             player.thrust = 0f;
             Transform childtoWork = null;
@@ -85,7 +105,7 @@ public class CarTrigger : MonoBehaviour {
             yield return new WaitForSeconds(intervalTime);
         }
 
-        player.canMove = true;
+        player.setMove(true);
         damageAnimation = true;
     }
 
