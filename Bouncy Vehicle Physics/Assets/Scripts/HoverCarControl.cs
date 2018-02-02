@@ -198,8 +198,19 @@ public class HoverCarControl : NetworkBehaviour
             float turnAxis = 0;
             buttonsDown();
             buttonsUp();
+
+
             acceleration = Input.GetAxis("Vertical");
-            turnAxis = Input.GetAxis("Horizontal");
+            if (Input.GetAxis("LeftJoySticjHorizontal") == 0)
+            {
+                turnAxis = Input.GetAxis("Horizontal");
+            }
+            else
+            {
+                turnAxis = Input.GetAxis("LeftJoySticjHorizontal");
+            }
+            
+
             if (hit.collider.gameObject.name == "Terrain")
             {
                 forwardAcceleration = 5000f;
