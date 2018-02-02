@@ -16,9 +16,13 @@ public class HoverCarControl : NetworkBehaviour
 
     //Para iniciar e quando leva dano
     [SyncVar (hook="setMove")] public bool canMove = true;
+    [SyncVar (hook="setProtected")] public bool pprotected = false;
+    public bool wrongWay = false;
 
     //Lista dos poderes que existem e os poderes do jogador
     public GameObject[] powers;
+    private int[] primeiroL = new int[8];
+    private int[] ultimoL = new int[7];
     public int[] atualPower = new int[2];
 
     //Posições para os poderes 
@@ -28,13 +32,6 @@ public class HoverCarControl : NetworkBehaviour
     public GameObject spawnPosLeft;
     public GameObject spawnPosRight;
 
-    //Game objects dos poderes;
-    // public GameObject mine;
-    //public GameObject missile;
-    //public GameObject shield;
-    //public GameObject bomb;
-    //public GameObject oil;
-    //public GameObject boost;
 
     //ranks
     public Text ranking;
@@ -49,9 +46,12 @@ public class HoverCarControl : NetworkBehaviour
  	public float turnStrength = 1000f;
   	float turnValue = 0f;
 
+    //Info para o boost
     public float delay = 4f;
     float countdown;
 
+    //Contador da metralha
+    int balas = 3;
 
 	public ParticleSystem[] dustTrails = new ParticleSystem[2];
 
@@ -60,6 +60,9 @@ public class HoverCarControl : NetworkBehaviour
     public bool fire { get; private set; }
     public bool r1 { get; private set; }
     public bool l1 { get; private set; }
+
+    public GameObject warning;
+    public bool respawn = false;
 
     void Start()
       {
@@ -73,19 +76,42 @@ public class HoverCarControl : NetworkBehaviour
         layerMask = ~layerMask;
 
         ranking = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0];
-        textPower = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[1];
-        textPower.text = "";
-
+        
         spawnPosMiddle = gameObject.transform.Find("SpawnPointMiddle").gameObject;
         spawnPos = gameObject.transform.Find("SpawnPoint").gameObject;
         spawnPosBack = gameObject.transform.Find("SpawnPointBack").gameObject;
         spawnPosLeft = gameObject.transform.Find("SpawnPointLeft").gameObject;
         spawnPosRight = gameObject.transform.Find("SpawnPointRight").gameObject;
 
-    //boost = new GameObject();
-    countdown = delay;
+        //boost = new GameObject();
+        countdown = delay;
         atualPower[0] = -1;
         atualPower[1] = -1;
+
+        primeiroL[0] = 0;
+        primeiroL[1] = 1;
+        primeiroL[2] = 2;
+        primeiroL[3] = 3;
+        primeiroL[4] = 4;
+        primeiroL[5] = 5;
+        primeiroL[6] = 6;
+        primeiroL[7] = 11;
+
+        ultimoL[0] = 4;
+        ultimoL[1] = 5;
+        ultimoL[2] = 6;
+        ultimoL[3] = 7;
+        ultimoL[4] = 8;
+        ultimoL[5] = 9;
+        ultimoL[6] = 10;
+
+        if (isLocalPlayer)
+        {
+            warning = GameObject.FindGameObjectWithTag("WWTAG");
+            warning.SetActive(false);
+        }
+
+
     }
 
 
@@ -115,7 +141,6 @@ public class HoverCarControl : NetworkBehaviour
         string p = "";
         foreach (int obj in atualPower)
         {
-            Debug.Log(obj);
             if (obj != -1)
             {
                 if (obj == powers.Length)
@@ -130,7 +155,7 @@ public class HoverCarControl : NetworkBehaviour
             else
                 p += "Nada";
         }
-        textPower.text = p;
+        //textPower.text = p;
 
         RaycastHit hit;
         float theDistance;
@@ -151,7 +176,16 @@ public class HoverCarControl : NetworkBehaviour
             buttonsDown();
             buttonsUp();
             acceleration = Input.GetAxis("Vertical");
-            turnAxis = Input.GetAxis("Horizontal");           
+            turnAxis = Input.GetAxis("Horizontal");
+            if (hit.collider.gameObject.name == "Terrain")
+            {
+                forwardAcceleration = 5000f;
+            }
+            else
+            {
+                forwardAcceleration = 25000f;
+            }
+            
             if (fire)
             {
                 if (hit.collider.gameObject.name == "Verde" || hit.collider.gameObject.name == "Azul")
@@ -177,7 +211,7 @@ public class HoverCarControl : NetworkBehaviour
                     }
                     else if (atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "Shield")
                     {
-
+                        setProtected(true);
                         CmdShield(atualPower[0]);
                         atualPower[0] = -1;
                     }
@@ -194,6 +228,35 @@ public class HoverCarControl : NetworkBehaviour
                     else if(atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "Punch")
                     {
                         CmdPunch(atualPower[0], r1, l1);
+                        atualPower[0] = -1;
+                    }
+                    else if (atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "Bala")
+                    {
+
+                        CmdMetralha(atualPower[0]);
+                        fire = false;
+                        if (balas > 1) { 
+                            balas--;
+                        }
+                        else {
+                            balas = 3;
+                            atualPower[0] = -1;
+                        }
+                    }
+                    else if (atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "STOP")
+                    {
+                        CmdSign(atualPower[0]);
+                        atualPower[0] = -1;
+                    }
+                    else if (atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "Field")
+                    {
+                        CmdForceField(atualPower[0]);
+                        setProtected(true);
+                        atualPower[0] = -1;
+                    }
+                    else if (atualPower[0] != -1 && powers[atualPower[0]].gameObject.name == "Exit")
+                    {
+                        CmdTeletransport(atualPower[0]);
                         atualPower[0] = -1;
                     }
                 }
@@ -219,7 +282,7 @@ public class HoverCarControl : NetworkBehaviour
                     }
                     else if (atualPower[1] != -1 && powers[atualPower[1]].gameObject.name == "Shield")
                     {
-
+                        setProtected(true);
                         CmdShield(atualPower[1]);
                         atualPower[1] = -1;
                     }
@@ -239,11 +302,50 @@ public class HoverCarControl : NetworkBehaviour
                         CmdPunch(atualPower[1], r1, l1);
                         atualPower[1] = -1;
                     }
+                    else if (atualPower[1] != -1 && powers[atualPower[1]].gameObject.name == "Bala")
+                    {
+                        CmdMetralha(atualPower[1]);
+                        fire = false;
+                        if (balas > 1)
+                        {
+                            balas--;
+                        }
+                        else
+                        {
+                            balas = 3;
+                            atualPower[1] = -1;
+                        }
+                    }
+                    else if (atualPower[1] != -1 && powers[atualPower[1]].gameObject.name == "STOP")
+                    {
+                        CmdSign(atualPower[1]);
+                        atualPower[1] = -1;
+                    }
+                    else if (atualPower[1] != -1 && powers[atualPower[1]].gameObject.name == "Field")
+                    {
+                        setProtected(true);
+                        CmdForceField(atualPower[1]);
+                        atualPower[1] = -1;
+                    }
+                    else if (atualPower[1] != -1 && powers[atualPower[1]].gameObject.name == "Exit")
+                    {
+                        CmdTeletransport(atualPower[1]);
+                        atualPower[1] = -1;
+                    }
                 }
             }
 
             if (acceleration > deadZone)
+            {
                 thrust = acceleration * forwardAcceleration;
+                if(wrongWay)
+                {
+                    warning.SetActive(true);
+                } else if(warning.activeInHierarchy)
+                {
+                    warning.SetActive(false);
+                }
+            }
             else if (acceleration < -deadZone)
                 thrust = acceleration * reverseAcceleration;
 
@@ -363,6 +465,43 @@ public class HoverCarControl : NetworkBehaviour
         NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
     }
 
+    [Command]
+    void CmdMetralha(int val)
+    {
+        Vector3 pos = spawnPos.transform.position;
+
+        pos[2] = pos[2] - 3;
+        GameObject bullet = (GameObject)Instantiate(powers[val],pos, spawnPos.transform.rotation);
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 10000f);
+        NetworkServer.Spawn(bullet);
+    }
+    [Command]
+    void CmdSign(int val)
+    {
+        Vector3 pos = spawnPosBack.transform.position;
+        pos[2] = pos[2] + 5; // the Z value
+        pos[1] = pos[1] + 2;
+        GameObject bullet = (GameObject)Instantiate(powers[val], pos+(transform.forward*-1), Quaternion.Euler(spawnPosBack.transform.rotation.eulerAngles.x, spawnPosBack.transform.rotation.eulerAngles.y + 90, spawnPosBack.transform.rotation.eulerAngles.z));
+        NetworkServer.Spawn(bullet);
+    }
+
+    [Command]
+    void CmdTeletransport(int val)
+    {
+        Quaternion rotation = Quaternion.Euler(spawnPosBack.transform.rotation.eulerAngles.x + 90, spawnPosBack.transform.rotation.eulerAngles.y, spawnPosBack.transform.rotation.eulerAngles.z);
+        GameObject bullet = (GameObject)Instantiate(powers[val], spawnPosBack.transform.position, rotation);
+        bullet.GetComponent<TeletransportScript>().setCar(gameObject.name);
+        NetworkServer.Spawn(bullet);
+    }
+
+    [Command]
+    void CmdForceField(int val)
+    {
+        GameObject bullet = (GameObject)Instantiate(powers[val], spawnPosMiddle.transform.position, spawnPosMiddle.transform.rotation);
+        bullet.GetComponent<FieldEffect>().setCar(gameObject.name);
+        NetworkServer.SpawnWithClientAuthority(bullet, gameObject);
+    }
+
 
 
     void FixedUpdate()
@@ -450,19 +589,59 @@ public class HoverCarControl : NetworkBehaviour
             {
                 if (x == 0 && atualPower[x] == -1)
                 {
-                    
-                    //atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
-                    atualPower[x] = 5;
+                    if (int.Parse(ranking.text) == 1)
+                    {
+                        atualPower[x] = UnityEngine.Random.Range(0, primeiroL.Length);
+
+                    }
+                    else if (int.Parse(ranking.text) == GameObject.FindGameObjectsWithTag("Player1").Length)
+                    {
+                        atualPower[x] = UnityEngine.Random.Range(0, ultimoL.Length);
+
+                    }
+                    else
+                    {
+
+                        atualPower[x] = UnityEngine.Random.Range(0, powers.Length+1);
+
+                    }
 
                 }
                 else if (x == 1 && atualPower[x] == -1)
                 {
-                    //atualPower[x] = powers[UnityEngine.Random.Range(0, powers.Length)];
-                    atualPower[x] = 5;
+                    if (int.Parse(ranking.text) == 1)
+                    {
+                        atualPower[x] = UnityEngine.Random.Range(0, primeiroL.Length);
+
+                    }
+                    else if (int.Parse(ranking.text) == GameObject.FindGameObjectsWithTag("Player1").Length)
+                    {
+                        atualPower[x] = UnityEngine.Random.Range(0, ultimoL.Length);
+
+                    }
+                    else
+                    {
+
+                        atualPower[x] = UnityEngine.Random.Range(0, powers.Length + 1);
+
+                    }
                 }
             }
 
             StartCoroutine(Wait(other.gameObject));
+        }
+        if (other.gameObject.CompareTag("Out"))
+        {
+
+
+            Transform infoCheck = GetComponent<CarCheckpoint>().checkPointArray[GetComponent<CarCheckpoint>().getCurrentCheck() - 1].transform;
+            Vector3 pos = infoCheck.position;
+            pos[2] = pos[2] + 10; // the Z value
+            transform.position = pos;
+            transform.rotation = Quaternion.Euler(infoCheck.rotation.eulerAngles);
+            thrust = 0f;
+            
+
         }
     }
 
@@ -473,9 +652,18 @@ public class HoverCarControl : NetworkBehaviour
         bo.SetActive(true);
     }
 
+
+
     public void setMove(bool b)
     {
         canMove = b;
     }
-
+    public void setProtected(bool b)
+    {
+        pprotected = b;
+    }
+    public void setWW(bool b)
+    {
+        wrongWay = b;
+    }
 }

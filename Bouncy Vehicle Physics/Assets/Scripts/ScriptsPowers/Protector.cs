@@ -43,11 +43,14 @@ public class Protector : NetworkBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == name) || other.CompareTag("Mina"))
+        if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == name) || other.CompareTag("Mina")
+            || other.CompareTag("Bala")
+            || other.CompareTag("Punch")
+            || other.CompareTag("Bomb"))
         {
             if (isServer)
                 gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
-
+            GameObject.Find(name).GetComponent<HoverCarControl>().setProtected(false);
             CmdDestroyObject(gameObject);
 
 

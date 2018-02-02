@@ -66,23 +66,25 @@ public class Homing : NetworkBehaviour {
     private void OnTriggerEnter(Collider other)
     {
 
+        if ((other.CompareTag("Shield") || other.CompareTag("Field")) && other.GetComponent<Protector>().name == name) //Explode com o escudo do gajo 
+        {
+            Destroy(gameObject);
+            //NetworkServer.Destroy(gameObject);
+            return;
+
+
+        }
         //Debug.Log(other.tag + " -- " + other.name);
         if (other.CompareTag("Player1") && name == other.name) //explode com o carro
         {
             
             Destroy(gameObject);
             //NetworkServer.Destroy(gameObject);
+            return;
 
 
         }
 
-        if (other.CompareTag("Shield") && other.GetComponent<Protector>().name == name) //Explode com o escudo do gajo 
-        {
-            Destroy(gameObject);
-            //NetworkServer.Destroy(gameObject);
-
-
-        }
 
     }
 

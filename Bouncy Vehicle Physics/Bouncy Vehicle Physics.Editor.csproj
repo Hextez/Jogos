@@ -341,6 +341,9 @@
     <None Include="Assets\CarbonConcept\JMO Assets\MatCap Shaders\Textures\MaCrea\MaCrea.txt" />
     <None Include="Assets\CarbonConcept\JMO Assets\MatCap Shaders\_MatCap Shaders Readme.txt" />
     <None Include="Assets\EffectExamples\Shared\Shaders\SurfaceShader_VC.shader" />
+    <None Include="Assets\Fonts\OpenSans\License!.txt" />
+    <None Include="Assets\Lobby\Documentation.txt" />
+    <None Include="Assets\Lobby\Instruction.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -381,6 +384,13 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+    <None Include="Assets\Shaders\Diffuse_Lava_Distort.shader" />
+    <None Include="Assets\Shaders\Unlit_Lava_Distort.shader" />
+    <None Include="Assets\Shaders\Unlit_Lava_Distort_Transparent.shader" />
+    <None Include="Assets\Shaders\Unlit_Lava_Simple.shader" />
+    <None Include="Assets\Unity sample ui\Fonts\Jupiter\LICENSE.txt" />
+    <None Include="Assets\Unity sample ui\Materials\UI-Default-No-Alpha.shader" />
+    <None Include="Assets\Unity sample ui\Textures and Sprites\SF UI\Background\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

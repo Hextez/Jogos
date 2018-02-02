@@ -7,29 +7,33 @@ public class CarCheckpoint : NetworkBehaviour {
 
     public List<GameObject> checkPointArray = new List<GameObject>(); //Checkpoint GameObjects stored as an array
     [SyncVar (hook = "setCheck")] public int currentCheckpoint = 0; //Current checkpoint
-    [SyncVar(hook = "setLap")] public int currentLap = 0; //Current lap
+    [SyncVar(hook = "setLap")] public int currentLap = 1; //Current lap
     
     void Start()
     {
         setCheckArray();
-        if (GameObject.Find("car1"))
+        if (!GameObject.Find("car1"))
+        {
+            gameObject.name = "car1";
+        }else
+        if (GameObject.Find("car1") && !GameObject.Find("car2"))
         {
             gameObject.name = "car2";
-        }
-        else if (GameObject.Find("car2")){
+        }else
+        if (GameObject.Find("car1") && GameObject.Find("car2") && !GameObject.Find("car3")){
             gameObject.name = "car3";
 
-        }else if (GameObject.Find("car3"))
+        }else
+        if (GameObject.Find("car1") && GameObject.Find("car2") && GameObject.Find("car3") && !GameObject.Find("car4"))
         {
             gameObject.name = "car4";
 
-        }else
-        {
-            gameObject.name = "car1";
         }
        
 
     }
+
+    
 
     public void setCheckArray()
     {

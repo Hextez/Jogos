@@ -16,6 +16,17 @@ TagManager:
   - Mina
   - Explosion
   - Oil
+  - Punch
+  - Sign
+  - Out
+  - Exit
+  - Entrance
+  - Field
+  - Bala
+  - Rank
+  - Lap
+  - Temporizador
+  - WWTAG
   layers:
   - Default
   - TransparentFX

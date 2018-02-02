@@ -6,5 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Menu.unity
+    guid: 116c9c26d0f0bbf4ab7bf8fb6a7146dd
+  - enabled: 1
+    path: Assets/lobbydodicas.unity
+    guid: 16dbdd181c7cf2e428f8e0fc91dd57f7
+  - enabled: 1
+    path: Assets/ScenaFinal.unity
+    guid: 36d4d8e3615c1624ea0d36c3f5a44334
+  - enabled: 0
     path: Assets/Hosting.unity
     guid: fe0c5eaecb1bea04f8b85ddfeea4bddf

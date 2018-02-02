@@ -16,7 +16,7 @@ public class Mining : NetworkBehaviour {
 
         }
 
-        if (other.CompareTag("Shield"))
+        if (other.CompareTag("Shield") || other.CompareTag("Field"))
         { 
             if (isServer)
                 gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);

@@ -13,7 +13,7 @@ public class PositionTrack : NetworkBehaviour {
     //public GameObject[] players;
 
     public Text ranking;
-    public Text textPlaye1;
+    public Text lapInfo;
 
     [SyncVar(hook = "setRanks")] public string texto;
 
@@ -22,9 +22,9 @@ public class PositionTrack : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        
-        ranking = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0];
-        textPlaye1 = GameObject.Find("Canvas").GetComponentsInChildren<Text>()[3];
+
+        ranking = GameObject.FindGameObjectWithTag("Rank").GetComponent<Text>();
+        lapInfo = GameObject.FindGameObjectWithTag("Lap").GetComponent<Text>();
 
         players = GameObject.FindGameObjectsWithTag("Player1");
         playersInPos = players;
@@ -35,7 +35,7 @@ public class PositionTrack : NetworkBehaviour {
     // Update is called once per frame
     void Update () {
        
-        textPlaye1.text = "Checkpoint: " + (car.getCurrentCheck()) + " Lap: " + (car.getCurrentLap());
+        lapInfo.text = car.getCurrentLap() + "/4";
 
         players = GameObject.FindGameObjectsWithTag("Player1");
         if (players.Length != playersInPos.Length)
@@ -64,14 +64,21 @@ public class PositionTrack : NetworkBehaviour {
                 x++;
             }
         }
-        string tex = "";
-        foreach (GameObject ob in playersInPos)
+        int pos = 0;
+        bool found = false;
+        string text = "";
+        while (pos < playersInPos.Length && !found)
         {
-            tex += ob.name + " ";
+            GameObject ob = playersInPos[pos];
+            text = text + ob.gameObject.name+" ";
+            if(ob.name == gameObject.name)
+            {
+                found = true;
+            }
+            pos += 1;
         }
-
-        setRanks(tex);
-        ranking.text = tex;
+        setRanks(text);
+        ranking.text = pos + "";
 
 	}
 
@@ -83,7 +90,7 @@ public class PositionTrack : NetworkBehaviour {
     public string getFristPlace()
     {
         //Debug.Log(texto+ "dsdsdsds");
-        return GameObject.Find("Canvas").GetComponentsInChildren<Text>()[0].text.Split(new string[] { " " }, StringSplitOptions.None)[0];
+        return texto.Split(new string[] { " " }, StringSplitOptions.None)[0];
 
     }
 

@@ -49,4 +49,9 @@ public class Bombing : NetworkBehaviour {
         if (collision.gameObject.name == "Amarelo" || collision.gameObject.name == "Azul" || collision.gameObject.name == "Vermelho" || collision.gameObject.name == "Verde")
             Explode();
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Shield") || other.CompareTag("Field"))
+            Explode();
+    }
 }

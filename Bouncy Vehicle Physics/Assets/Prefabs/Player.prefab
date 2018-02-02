@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 124691797291613900}
   - component: {fileID: 81373259576808306}
   - component: {fileID: 114295851596516352}
+  - component: {fileID: 45257360614381110}
   m_Layer: 0
   m_Name: CarCamera
   m_TagString: MainCamera
@@ -657,7 +658,7 @@ Camera:
   m_GameObject: {fileID: 1510461626529788}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.46323532, g: 0.46323532, b: 0.46323532, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -931,6 +932,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1254424486373648}
   m_Mesh: {fileID: 4300004, guid: ced9e8504ff28fd44a0883da1267cfee, type: 3}
+--- !u!45 &45257360614381110
+Skybox:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1510461626529788}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 966766f4829d6ad419eaaf7cf0712f85, type: 2}
 --- !u!54 &54521195960429010
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -1087,7 +1096,7 @@ MonoBehaviour:
   players: []
   playersInPos: []
   ranking: {fileID: 0}
-  textPlaye1: {fileID: 0}
+  lapInfo: {fileID: 0}
   texto: 
 --- !u!114 &114783342829527938
 MonoBehaviour:
@@ -1111,17 +1120,25 @@ MonoBehaviour:
   - {fileID: 1271114274195600}
   - {fileID: 1359734090763050}
   canMove: 1
+  pprotected: 0
+  wrongWay: 0
   powers:
   - {fileID: 1186339051560044, guid: 55d2beb6d9a91ad4284eac03e9d12efb, type: 2}
-  - {fileID: 1868884654642742, guid: 9dcd0f45083b9a049b5f34645fc6a0c6, type: 2}
-  - {fileID: 1492284244892658, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
-  - {fileID: 1318230238550432, guid: 47e0aec678238684da2f4e74a51c43b9, type: 2}
+  - {fileID: 1148870307616996, guid: 0bf6adf06e335984c95dab31b08abb6b, type: 2}
+  - {fileID: 1118022249655240, guid: da79c398aced7284ba6f7bf8876da33b, type: 2}
   - {fileID: 1388806327309302, guid: 1b549ab9f61eb5a409eb478bb1886639, type: 2}
+  - {fileID: 1492284244892658, guid: b7f2f38b6c9a1a347af45ea6bd5b7918, type: 2}
+  - {fileID: 1275775477438130, guid: ec33af8c6f86c314f85be045637c919f, type: 2}
   - {fileID: 1438258049268530, guid: ede2844c12c426f4cae63ff95b938654, type: 2}
+  - {fileID: 1318230238550432, guid: 47e0aec678238684da2f4e74a51c43b9, type: 2}
+  - {fileID: 1636378448341100, guid: 30bf3c0b452c0d64da9dd7e7bc1c4214, type: 2}
+  - {fileID: 1868884654642742, guid: 9dcd0f45083b9a049b5f34645fc6a0c6, type: 2}
   atualPower: 0000000000000000
   spawnPos: {fileID: 0}
   spawnPosBack: {fileID: 0}
   spawnPosMiddle: {fileID: 0}
+  spawnPosLeft: {fileID: 0}
+  spawnPosRight: {fileID: 0}
   ranking: {fileID: 0}
   textPower: {fileID: 0}
   boostPower: 35000
@@ -1133,6 +1150,8 @@ MonoBehaviour:
   dustTrails:
   - {fileID: 198332360448184190}
   - {fileID: 198149821746957084}
+  warning: {fileID: 0}
+  respawn: 0
 --- !u!114 &114951732232916334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1146,7 +1165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkPointArray: []
   currentCheckpoint: 0
-  currentLap: 0
+  currentLap: 1
 --- !u!124 &124691797291613900
 Behaviour:
   m_ObjectHideFlags: 1
