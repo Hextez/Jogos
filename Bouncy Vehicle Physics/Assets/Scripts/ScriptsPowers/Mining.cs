@@ -7,22 +7,21 @@ public class Mining : NetworkBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player1"))
-        {
-            if (isServer)
-                gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
-            NetworkServer.Destroy(gameObject);
-
-
-        }
 
         if (other.CompareTag("Shield") || other.CompareTag("Field"))
-        { 
-            if (isServer)
-                gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority(gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+        {
             NetworkServer.Destroy(gameObject);
 
         }
+
+        if (other.CompareTag("Player1"))
+        {
+           NetworkServer.Destroy(gameObject);
+
+
+        }
+
+        
 
     }
 }

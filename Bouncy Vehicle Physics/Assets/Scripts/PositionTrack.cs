@@ -14,6 +14,7 @@ public class PositionTrack : NetworkBehaviour {
 
     public Text ranking;
     public Text lapInfo;
+    public Transform canvasPause;
 
     [SyncVar(hook = "setRanks")] public string texto;
 
@@ -30,6 +31,10 @@ public class PositionTrack : NetworkBehaviour {
         playersInPos = players;
 
         car = GetComponent<CarCheckpoint>();
+
+
+        canvasPause = GameObject.Find("PauseGame").transform;
+        canvasPause.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -77,12 +82,27 @@ public class PositionTrack : NetworkBehaviour {
             }
             pos += 1;
         }
-        setRanks(text);
+        setRanks(playersInPos[0].name);
         ranking.text = pos + "";
+        Debug.Log(text);
+        if (isLocalPlayer && GetComponent<CarCheckpoint>().getCurrentLap() == 3 && GetComponent<CarCheckpoint>().getCurrentCheck() == 1)
+        {
+            canvasPause.gameObject.SetActive(true);
+            GameObject.Find("Position").GetComponent<Text>().text = text;
+            GetComponent<HoverCarControl>().setMove(false);
+            GetComponent<HoverCarControl>().thrust = 0f;
+        }
 
 	}
 
     public void setRanks(String s)
+    {
+        texto = s;
+        CmdsetRanks(s);
+    }
+
+    [Command]
+    public void CmdsetRanks(string s)
     {
         texto = s;
     }
@@ -90,7 +110,7 @@ public class PositionTrack : NetworkBehaviour {
     public string getFristPlace()
     {
         //Debug.Log(texto+ "dsdsdsds");
-        return texto.Split(new string[] { " " }, StringSplitOptions.None)[0];
+        return texto;
 
     }
 

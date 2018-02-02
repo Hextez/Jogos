@@ -15,7 +15,7 @@ public class HoverCarControl : NetworkBehaviour
   	public GameObject[] hoverPoints;
 
     //Para iniciar e quando leva dano
-    [SyncVar (hook="setMove")] public bool canMove = true;
+    [SyncVar (hook="setMove")] public bool canMove = false;
     [SyncVar (hook="setProtected")] public bool pprotected = false;
     public bool wrongWay = false;
 
@@ -23,7 +23,7 @@ public class HoverCarControl : NetworkBehaviour
     public GameObject[] powers;
     public Sprite[] powersImgs;
     private int[] primeiroL = new int[8];
-    private int[] ultimoL = new int[7];
+    private int[] ultimoL = new int[6];
     public int[] atualPower = new int[2];
 
     //Posições para os poderes 
@@ -70,6 +70,9 @@ public class HoverCarControl : NetworkBehaviour
 
     void Start()
       {
+        if (GameObject.Find("player"))
+            gameObject.name = "player1";
+
         if(GameObject.Find("Camera")) //camera inicial
             GameObject.Find("Camera").SetActive(false);
 
@@ -107,10 +110,8 @@ public class HoverCarControl : NetworkBehaviour
         ultimoL[3] = 7;
         ultimoL[4] = 8;
         ultimoL[5] = 9;
-        ultimoL[6] = 10;
 
-        canvasPause = GameObject.Find("PauseGame").transform;
-        canvasPause.gameObject.SetActive(false);
+        
 
         if (isLocalPlayer)
         {
@@ -135,21 +136,6 @@ public class HoverCarControl : NetworkBehaviour
         if (!isLocalPlayer) //so o local pode mexer 
         {
             return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(canvasPause.gameObject.activeInHierarchy == false)
-            {
-                canvasPause.gameObject.SetActive(true);
-                thrust = 0f;
-                setMove(false);
-            }
-            else
-            {
-                canvasPause.gameObject.SetActive(false);
-                setMove(true);
-            }
         }
 
         if (forwardAcceleration == 35000f) { 
@@ -185,7 +171,7 @@ public class HoverCarControl : NetworkBehaviour
 
         Vector3 foward = transform.TransformDirection(Vector3.down);
         Debug.DrawRay(transform.position, foward, Color.green);
-
+        Debug.Log(canMove);
         if (canMove)
         {
 
@@ -460,8 +446,7 @@ public class HoverCarControl : NetworkBehaviour
     void CmdBomb(int val)
     {
         Vector3 pos = spawnPosMiddle.transform.position;
-        pos[1] = pos[1]+2; // the Z value
-
+        pos[1] = pos[1]+4; // the Z value
         GameObject bullet = (GameObject)Instantiate(powers[val], pos, spawnPosMiddle.transform.rotation);
         NetworkServer.Spawn(bullet);
     }
@@ -469,10 +454,11 @@ public class HoverCarControl : NetworkBehaviour
     [Command]
     void CmdOil(int val)
     {
+
         Vector3 pos = spawnPosBack.transform.position;
         pos[2] = pos[2] + 5; // the Z value
 
-        GameObject bullet = (GameObject)Instantiate(powers[val], pos, Quaternion.Euler(spawnPosBack.transform.rotation.x +90, spawnPosBack.transform.rotation.y, spawnPosBack.transform.rotation.z));
+        GameObject bullet = (GameObject)Instantiate(powers[val], pos, Quaternion.Euler(spawnPosBack.transform.rotation.x + 90, spawnPosBack.transform.rotation.y, spawnPosBack.transform.rotation.z));
         NetworkServer.Spawn(bullet);
     }
     [Command]
@@ -623,42 +609,15 @@ public class HoverCarControl : NetworkBehaviour
             {
                 if (x == 0 && atualPower[x] == -1)
                 {
-                    if (int.Parse(ranking.text) == 1)
-                    {
-                        atualPower[x] = UnityEngine.Random.Range(0, primeiroL.Length);
 
-                    }
-                    else if (int.Parse(ranking.text) == GameObject.FindGameObjectsWithTag("Player1").Length)
-                    {
-                        atualPower[x] = UnityEngine.Random.Range(0, ultimoL.Length);
-
-                    }
-                    else
-                    {
-
-                        atualPower[x] = UnityEngine.Random.Range(0, powers.Length+1);
-
-                    }
+                    atualPower[x] = UnityEngine.Random.Range(0, powers.Length + 1);
+                    
 
                 }
                 else if (x == 1 && atualPower[x] == -1)
                 {
-                    if (int.Parse(ranking.text) == 1)
-                    {
-                        atualPower[x] = UnityEngine.Random.Range(0, primeiroL.Length);
+                    atualPower[x] = UnityEngine.Random.Range(0, powers.Length + 1);
 
-                    }
-                    else if (int.Parse(ranking.text) == GameObject.FindGameObjectsWithTag("Player1").Length)
-                    {
-                        atualPower[x] = UnityEngine.Random.Range(0, ultimoL.Length);
-
-                    }
-                    else
-                    {
-
-                        atualPower[x] = UnityEngine.Random.Range(0, powers.Length + 1);
-
-                    }
                 }
             }
 
@@ -669,10 +628,9 @@ public class HoverCarControl : NetworkBehaviour
 
 
             Transform infoCheck = GetComponent<CarCheckpoint>().checkPointArray[GetComponent<CarCheckpoint>().getCurrentCheck() - 1].transform;
-            Vector3 pos = infoCheck.position;
-            pos[2] = pos[2] + 10; // the Z value
-            transform.position = pos;
             transform.rotation = Quaternion.Euler(infoCheck.rotation.eulerAngles);
+            Vector3 pos = infoCheck.position+ transform.forward * 10;
+            transform.position = pos;
             thrust = 0f;
             
 

@@ -372,7 +372,9 @@
     <Compile Include="Assets\Scripts\ScriptsPowers\TeletransportScript.cs" />
     <Compile Include="Assets\Scripts\ScrollingUVs_Layers.cs" />
     <Compile Include="Assets\Scripts\TextAnim.cs" />
+    <Compile Include="Assets\Scripts\TimeControler.cs" />
     <Compile Include="Assets\SetupLocalPlayer.cs" />
+    <Compile Include="Assets\SignalVariab.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ActiveStateToggler.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ApplicationManager.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ChangeColor.cs" />

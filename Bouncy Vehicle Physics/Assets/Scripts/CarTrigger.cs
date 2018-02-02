@@ -9,7 +9,7 @@ public class CarTrigger : NetworkBehaviour {
 
     private bool damageAnimation = true;
     private Material mat;
-    private Color[] colors = { Color.yellow, Color.red };
+    private Color[] colors = new Color[2];
     public HoverCarControl player;
     public CarCheckpoint car1;
 
@@ -17,6 +17,7 @@ public class CarTrigger : NetworkBehaviour {
     {
         player = gameObject.GetComponent<HoverCarControl>();
         car1 = gameObject.GetComponent<CarCheckpoint>();
+        colors[0] = Color.yellow;
 
     }
     void OnTriggerExit(Collider other)
@@ -41,14 +42,14 @@ public class CarTrigger : NetworkBehaviour {
         }
 
 
-        if (other.CompareTag("Sign"))
+        if (other.CompareTag("Sign") && Time.time - other.GetComponent<SignalVariab>().time >= 1)
         {
-
+            Debug.Log(Time.time - other.GetComponent<SignalVariab>().time);
             gameObject.GetComponent<HoverCarControl>().thrust = 0f;
             gameObject.GetComponent<HoverCarControl>().forwardAcceleration = 0f;
             gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -1000000f);
-            NetworkServer.Destroy(other.gameObject);
             gameObject.GetComponent<HoverCarControl>().forwardAcceleration = 25000f;
+            CmddeleteOb(other.gameObject);
 
 
         }
@@ -59,8 +60,12 @@ public class CarTrigger : NetworkBehaviour {
                 gameObject.GetComponent<Rigidbody>().AddExplosionForce(100000f, other.transform.position, 500f);
             }
 
-            if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == gameObject.name) || other.CompareTag("Mina")
-                    || other.CompareTag("Bala"))
+            if ((other.CompareTag("Missile") && other.GetComponent<Homing>().name == gameObject.name) )
+            {
+                Debug.Log("Leva dano");
+                damage();
+            }
+            if (other.CompareTag("Mina"))
             {
                 damage();
             }
@@ -124,6 +129,7 @@ public class CarTrigger : NetworkBehaviour {
 
     private void damage()
     {
+
         player.setMove(false);
         damageAnimation = false;
         player.thrust = 0f;
@@ -134,10 +140,18 @@ public class CarTrigger : NetworkBehaviour {
             {
                 childtoWork = child.transform.GetChild(0);
                 mat = childtoWork.GetComponent<Renderer>().material;
+                colors[1] = mat.color;
             }
         }
         StartCoroutine(Flash(0.4f, 0.05f));
         new WaitForSeconds(3);
+    }
+
+
+    [Command]
+    public void CmddeleteOb(GameObject ob)
+    {
+        NetworkServer.Destroy(ob);
     }
 
 }

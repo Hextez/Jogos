@@ -13,6 +13,8 @@ public class SetupLocalPlayer : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
         //Debug.Log(playername);
+        gameObject.name = playername;
+
         Transform childtoWork = null;
 
         foreach (Transform child in transform)

@@ -11,6 +11,7 @@ public class TeletransportScript : NetworkBehaviour {
     [SyncVar(hook = "setCar")] public string name;
     [SyncVar(hook = "setCreated")] public bool created;
     [SyncVar(hook = "destroyEl")] public bool destroy;
+    [SyncVar(hook = "setCheckpoint")] public int checkpoint = -2;
     private float endTime;
     // Use this for initialization
     void Start () {
@@ -24,6 +25,10 @@ public class TeletransportScript : NetworkBehaviour {
             setCreated(true);
             StartCoroutine(Entrance(1));
             //CmdCreateEntrace();
+        }
+        else if(checkpoint == -2)
+        {
+            setCheckpoint(GameObject.Find(name).GetComponent<CarCheckpoint>().getCurrentCheck());
         }
         if(destroy)
         {
@@ -43,6 +48,7 @@ public class TeletransportScript : NetworkBehaviour {
         entrance = Instantiate(entrance, position, entrance.transform.rotation);
         entrance.GetComponent<EntraceScript>().setCar(name);
         entrance.GetComponent<EntraceScript>().setExit(transform.position);
+        entrance.GetComponent<EntraceScript>().setCheckpoint(checkpoint);
         NetworkServer.Spawn(entrance);
     }
 
@@ -69,5 +75,9 @@ public class TeletransportScript : NetworkBehaviour {
     public void destroyEl(bool bol)
     {
         this.destroy = bol;
+    }
+    public void setCheckpoint(int i)
+    {
+        this.checkpoint = i;
     }
 }

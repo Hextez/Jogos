@@ -12,7 +12,7 @@ public class Homing : NetworkBehaviour {
     public GameObject missileMod;
     
     public Transform target;
-    [SyncVar(hook = "setTargetName")] public string name;
+    [SyncVar(hook = "setTargetName")] public string Tname;
 
 
     void Start()
@@ -27,7 +27,7 @@ public class Homing : NetworkBehaviour {
 
     public void setTargetName(string s)
     {
-        name = s;
+        Tname = s;
     }
 
     void FixedUpdate()
@@ -49,7 +49,7 @@ public class Homing : NetworkBehaviour {
 
         float distance = Mathf.Infinity;
 
-        GameObject go = GameObject.Find(name);
+        GameObject go = GameObject.Find(Tname);
 
         float diff = (target.transform.position - transform.position).sqrMagnitude;
 
@@ -66,24 +66,18 @@ public class Homing : NetworkBehaviour {
     private void OnTriggerEnter(Collider other)
     {
 
-        if ((other.CompareTag("Shield") || other.CompareTag("Field")) && other.GetComponent<Protector>().name == name) //Explode com o escudo do gajo 
-        {
-            Destroy(gameObject);
-            //NetworkServer.Destroy(gameObject);
-            return;
+       if ((other.CompareTag("Shield") && other.GetComponent<Protector>().name == Tname) || 
+            ( other.CompareTag("Field") && other.GetComponent<FieldEffect>().name == Tname)){
 
+            NetworkServer.Destroy(gameObject);
 
         }
-        //Debug.Log(other.tag + " -- " + other.name);
-        if (other.CompareTag("Player1") && name == other.name) //explode com o carro
+
+       if(other.CompareTag("Player1") && other.name == Tname)
         {
-            
-            Destroy(gameObject);
-            //NetworkServer.Destroy(gameObject);
-            return;
-
-
+            NetworkServer.Destroy(gameObject);
         }
+
 
 
     }

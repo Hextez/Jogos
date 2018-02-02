@@ -7,6 +7,7 @@ public class EntraceScript : NetworkBehaviour {
 
     [SyncVar(hook = "setCar")] public string name;
     [SyncVar(hook = "setExit")] public Vector3 exit;
+    [SyncVar(hook = "setCheckpoint")] public int checkpoint;
     private bool tele;
     private GameObject target;
     private float time;
@@ -21,6 +22,7 @@ public class EntraceScript : NetworkBehaviour {
 		if(tele)
         {
             target.transform.position = exit;
+            target.GetComponent<CarCheckpoint>().setCheck(checkpoint);
             foreach(GameObject i in GameObject.FindGameObjectsWithTag("Exit")) {
                 Debug.Log("entrei --" + i.name);
                 if(i.transform.position.Equals(exit))
@@ -57,6 +59,11 @@ public class EntraceScript : NetworkBehaviour {
     public void setExit(Vector3 pos)
     {
         this.exit = pos;
+    }
+
+    public void setCheckpoint(int i)
+    {
+        this.checkpoint = i;
     }
     [Command]
     void CmdDestroyObject(GameObject ob)

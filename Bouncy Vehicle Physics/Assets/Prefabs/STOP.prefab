@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 95590712084124310}
   - component: {fileID: 114259271230652888}
   - component: {fileID: 65501613689067384}
+  - component: {fileID: 114520741506233056}
   m_Layer: 0
   m_Name: STOP
   m_TagString: Sign
@@ -320,3 +321,14 @@ MonoBehaviour:
     i15: 59
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114520741506233056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118022249655240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c3894fc5927764aa16c465fdb4bd72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
