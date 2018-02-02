@@ -21,6 +21,7 @@ public class HoverCarControl : NetworkBehaviour
 
     //Lista dos poderes que existem e os poderes do jogador
     public GameObject[] powers;
+    public Sprite[] powersImgs;
     private int[] primeiroL = new int[8];
     private int[] ultimoL = new int[7];
     public int[] atualPower = new int[2];
@@ -52,6 +53,9 @@ public class HoverCarControl : NetworkBehaviour
 
     //Contador da metralha
     int balas = 3;
+
+    //Pause do jogo
+    public Transform canvasPause;
 
 	public ParticleSystem[] dustTrails = new ParticleSystem[2];
 
@@ -105,6 +109,9 @@ public class HoverCarControl : NetworkBehaviour
         ultimoL[5] = 9;
         ultimoL[6] = 10;
 
+        canvasPause = GameObject.Find("PauseGame").transform;
+        canvasPause.gameObject.SetActive(false);
+
         if (isLocalPlayer)
         {
             warning = GameObject.FindGameObjectWithTag("WWTAG");
@@ -130,6 +137,21 @@ public class HoverCarControl : NetworkBehaviour
             return;
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(canvasPause.gameObject.activeInHierarchy == false)
+            {
+                canvasPause.gameObject.SetActive(true);
+                thrust = 0f;
+                setMove(false);
+            }
+            else
+            {
+                canvasPause.gameObject.SetActive(false);
+                setMove(true);
+            }
+        }
+
         if (forwardAcceleration == 35000f) { 
             countdown -= Time.deltaTime;
             if (countdown <= 0f)
@@ -138,24 +160,25 @@ public class HoverCarControl : NetworkBehaviour
             }
         }
 
-        string p = "";
-        foreach (int obj in atualPower)
+        if (atualPower[0] != -1)
         {
-            if (obj != -1)
-            {
-                if (obj == powers.Length)
-                {
-                    p += "Boost";
-                }
-                else
-                {
-                    p += powers[obj].name;
-                }
-            }
-            else
-                p += "Nada";
+            GameObject.Find("GBImage").GetComponent<Image>().sprite = powersImgs[atualPower[0]];
         }
-        //textPower.text = p;
+        else
+        {
+            GameObject.Find("GBImage").GetComponent<Image>().sprite = powersImgs[powersImgs.Length-1];
+
+        }
+        if (atualPower[1] != -1)
+        {
+            GameObject.Find("RYImage").GetComponent<Image>().sprite = powersImgs[atualPower[1]];
+
+        }
+        else
+        {
+            GameObject.Find("RYImage").GetComponent<Image>().sprite = powersImgs[powersImgs.Length - 1];
+
+        }
 
         RaycastHit hit;
         float theDistance;

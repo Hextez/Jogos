@@ -12,7 +12,7 @@ public class CarCheckpoint : NetworkBehaviour {
     void Start()
     {
         setCheckArray();
-        if (!GameObject.Find("car1"))
+        /*if (!GameObject.Find("car1"))
         {
             gameObject.name = "car1";
         }else
@@ -28,7 +28,7 @@ public class CarCheckpoint : NetworkBehaviour {
         {
             gameObject.name = "car4";
 
-        }
+        }*/
        
 
     }

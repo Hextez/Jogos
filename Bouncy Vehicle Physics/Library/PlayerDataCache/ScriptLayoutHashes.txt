@@ -173,6 +173,7 @@ e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEng
 c29b3af5702704d3dded4c2b5afaf5c2 Assembly-CSharp.dll:.StringEffect
 9e8935bc7a7ce00d3aae2531b559e968 Assembly-CSharp.dll:Prototype.NetworkLobby.LobbyPlayerList
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TextAnim
 90f5d1546d6582312b7de52b55f5f9a8 Assembly-CSharp.dll:.CarCheckpoint
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInput
@@ -196,4 +197,5 @@ f671a42aea5f34fec6a4450a3668c615 Assembly-CSharp.dll:UnityEngine.PostProcessing.
 f0979457c643b998f3bc9b9e3b462010 Assembly-CSharp.dll:.TeletransportScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ChangeColor
 239d2cc8d353bbfcbefc27fa8f0221cc Assembly-CSharp.dll:Prototype.NetworkLobby.LobbyServerList
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TextAnim
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.NetworkLobbyHook
+0fd44a68c0866abcfd9d0d9325d0e392 Assembly-CSharp.dll:.SetupLocalPlayer

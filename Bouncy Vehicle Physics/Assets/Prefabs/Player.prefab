@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 114337006188115092}
   - component: {fileID: 114073895067822408}
   - component: {fileID: 114513363423050072}
+  - component: {fileID: 114649131549681124}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player1
@@ -1098,6 +1099,19 @@ MonoBehaviour:
   ranking: {fileID: 0}
   lapInfo: {fileID: 0}
   texto: 
+--- !u!114 &114649131549681124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1821757670534998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bac408686b11a34b8b905fb2b617012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playername: player
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &114783342829527938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1133,6 +1147,19 @@ MonoBehaviour:
   - {fileID: 1318230238550432, guid: 47e0aec678238684da2f4e74a51c43b9, type: 2}
   - {fileID: 1636378448341100, guid: 30bf3c0b452c0d64da9dd7e7bc1c4214, type: 2}
   - {fileID: 1868884654642742, guid: 9dcd0f45083b9a049b5f34645fc6a0c6, type: 2}
+  powersImgs:
+  - {fileID: 21300000, guid: 50aa1c12fa7a3ee43b9edda728ff39fb, type: 3}
+  - {fileID: 21300000, guid: f95fd78b4c5a1574e8f185db2f746674, type: 3}
+  - {fileID: 21300000, guid: 020113036d534384297851a4627aa606, type: 3}
+  - {fileID: 21300000, guid: cae5e3c10a18b8440a1b88d1e6520c9f, type: 3}
+  - {fileID: 21300000, guid: e90a1293a7068f3498ad46c2c9668f7d, type: 3}
+  - {fileID: 21300000, guid: 90a5f8af52d0bcd4ab385ccd7c16fc11, type: 3}
+  - {fileID: 21300000, guid: 25c19df1dcc15c148801143fdc03cd09, type: 3}
+  - {fileID: 21300000, guid: 72f9ba8eb65588f45a95a387e9a19894, type: 3}
+  - {fileID: 21300000, guid: 88c79c855cc688d4fae0879a6b52cc36, type: 3}
+  - {fileID: 21300000, guid: 842222f186c4a37418f3d4a5cd35b091, type: 3}
+  - {fileID: 21300000, guid: fd59b66a28369fb41ad5b663fd41d99d, type: 3}
+  - {fileID: 21300000, guid: fed4f39dd2632be43a21782bc4244957, type: 3}
   atualPower: 0000000000000000
   spawnPos: {fileID: 0}
   spawnPosBack: {fileID: 0}
@@ -1147,6 +1174,7 @@ MonoBehaviour:
   thrust: 0
   turnStrength: 500
   delay: 4
+  canvasPause: {fileID: 0}
   dustTrails:
   - {fileID: 198332360448184190}
   - {fileID: 198149821746957084}

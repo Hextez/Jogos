@@ -355,6 +355,7 @@
     <Compile Include="Assets\Scripts\CarTrigger.cs" />
     <Compile Include="Assets\Scripts\CountDown.cs" />
     <Compile Include="Assets\Scripts\HoverCarControl.cs" />
+    <Compile Include="Assets\Scripts\NetworkLobbyHook.cs" />
     <Compile Include="Assets\Scripts\PlayerStatus.cs" />
     <Compile Include="Assets\Scripts\PositionTrack.cs" />
     <Compile Include="Assets\Scripts\rotator.cs" />
@@ -371,6 +372,7 @@
     <Compile Include="Assets\Scripts\ScriptsPowers\TeletransportScript.cs" />
     <Compile Include="Assets\Scripts\ScrollingUVs_Layers.cs" />
     <Compile Include="Assets\Scripts\TextAnim.cs" />
+    <Compile Include="Assets\SetupLocalPlayer.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ActiveStateToggler.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ApplicationManager.cs" />
     <Compile Include="Assets\Unity sample ui\Scripts\ChangeColor.cs" />
